@@ -10,7 +10,8 @@ function LoginForm({Login,error}) {
    <form onSubmit={submitHandler}>
        <div className="form-inner">
             <h2>Login</h2>
-            {(error !== "") ? (<div style={{color: "#FFCE00"}}className="error">{error}</div>):""}
+            {(error === "match") ? (<div style={{color: "#FFCE00"}}className="error">{"Details do not match"}</div>):""}
+            {(error === "invalid") ? (<div style={{color: "#FE4880"}}className="error">{"Invalid user Warning!"}</div>):""}
             <div className="form-group">
                 <label htmlFor="userid"> User Id: </label>
                 <input type="text" name="userid" id="userid" onChange={e => setDetails({...details,userid:e.target.value})} value={details.userid}/>

@@ -1,5 +1,30 @@
-import React,{useState} from 'react';
+import React,{useEffect, useState} from 'react';
 import LoginForm from './components/LoginForm';
+
+function useMouse(){
+  const [mousePosition, setMousePosition]=useState({
+    x:null,
+    y:null,
+    movementX:null,
+    movementY:null,
+    timestamp: null
+  })
+  useEffect(()=>{
+    function handle(e){
+      setMousePosition({
+        x: e.pageX,
+        y: e.pageY,
+        movementX: e.movementX,
+        movementY: e.movementY,
+        timestamp: Date.now()
+      });
+    }
+    document.addEventListener("mousemove",handle)
+    return ()=>  document.removeEventListener("mousemove", handle)
+  })
+  return mousePosition
+}
+          
 function editDistance(s1, s2) {
   s1 = s1.toLowerCase();
   s2 = s2.toLowerCase();
@@ -41,6 +66,9 @@ function similarity(s1, s2) {
 }
 
 function App() {
+  const {x,y,movementX,movementY,timestamp}=useMouse();
+  console.log("x:",x," y:",y," time:",timestamp)
+  console.log("movementX:",movementX," movementY:",movementY)
   const adminUser = {
     name: "Varun Parashar",
     userid: "varun",
@@ -58,24 +86,24 @@ function App() {
         userid: details.userid,
       })
       }
-      else if(similarity(details.password,adminUser.password)<0.3){
+      else if(similarity(details.password,adminUser.password)<0.5){
         console.log("Warning")
-        setError("Invalid User Warning!")
+        setError("invalid")
       }
       else{
         console.log("details do not match")
-        setError("Details do not match!")
+        setError("match")
       }
   }
     
     else{
       console.log("details do not match")
-      setError("Details do not match!")
+      setError("match")
     }
   }
   const Logout = () => {
     setUser({userid:""});
-
+    setError("")
   }
   return (
     <div className="App">
