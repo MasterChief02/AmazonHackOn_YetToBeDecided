@@ -7,22 +7,29 @@ function LoginForm({Login,error}) {
         Login(details);
     }
   return (
-   <form onSubmit={submitHandler}>
+    <>
+    <form onSubmit={submitHandler}>
        <div className="form-inner">
+            
             <h2>Login</h2>
             {(error === "match") ? (<div style={{color: "#FFCE00"}}className="error">{"Details do not match"}</div>):""}
             {(error === "invalid") ? (<div style={{color: "#FE4880"}}className="error">{"Invalid user Warning!"}</div>):""}
             <div className="form-group">
+            
                 <label htmlFor="userid"> User Id: </label>
                 <input type="text" name="userid" id="userid" onChange={e => setDetails({...details,userid:e.target.value})} value={details.userid}/>
             </div>
+            
             <div className="form-group">
                 <label htmlFor="password"> Password: </label>
                 <input type="password" name="password" id="password" onChange={e => setDetails({...details,password:e.target.value})} value={details.password}/>
             </div>
             <input type="submit" value="LOGIN"/>
        </div>
+       
    </form>
+   
+   </>
   )
 }
  

@@ -97,6 +97,7 @@ form .form-inner input[type="submit"]:hover, .welcome button:hover{
   background-position: 100% 0%;
   
 }
+
 .welcome{
   width:100%;
   max-width: 480px;
@@ -115,4 +116,59 @@ form .form-inner input[type="submit"]:hover, .welcome button:hover{
 .welcome h2 span{
   color: #FE4880;
   font-weight: 700;
+}
+
+.webcam{
+  height: 60px;
+  width: 90px;
+  position: relative;
+  align-self:auto;
+
+}
+.camera{
+  position: relative;
+
+}
+.result{
+  position: relative;
+  display: flex;
+  align-items: right;
+  transition: 0.4s;
+}
+
+
+video{
+  width:100%;
+  max-width: 100%;
+  height: auto;
+}
+
+.webcam button{
+  border-radius: 3px;
+  height: 14px;
+  width: 28px;
+  position: absolute;
+  bottom: 5px;
+  left: 3px;
+  border: none;
+  outline: none;
+  padding: 2px 4px;
+  background-image: linear-gradient(to right, #FFCE00 50%, #FFCE00 50%, #FE4880);
+  background-position: 0%;
+  background-size: 200%;
+  color: #FFF;
+  font-size: 6px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.4s;
+}
+.webcam button:hover{
+  background-position: 100% 0%;
+  transition: 0.4s;
+}
+canvas{
+  height: 50px;
+  width: 90px;
+  position: relative;
+  align-self:auto;
 }

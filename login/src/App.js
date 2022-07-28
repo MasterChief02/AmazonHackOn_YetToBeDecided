@@ -1,5 +1,6 @@
 import React,{useEffect, useState} from 'react';
 import LoginForm from './components/LoginForm';
+import Webcam from './components/Webcam';
 
 function useMouse(){
   const [mousePosition, setMousePosition]=useState({
@@ -24,6 +25,7 @@ function useMouse(){
   })
   return mousePosition
 }
+
           
 function editDistance(s1, s2) {
   s1 = s1.toLowerCase();
@@ -66,6 +68,16 @@ function similarity(s1, s2) {
 }
 
 function App() {
+  
+  useEffect(()=>{
+    fetch('http://localhost:8000/mouse')
+      .then(res => {
+        return res.json();
+      })
+      .then(data => {
+        console.log(data);
+      })
+  },[])
   const {x,y,movementX,movementY,timestamp}=useMouse();
   console.log("x:",x," y:",y," time:",timestamp)
   console.log("movementX:",movementX," movementY:",movementY)
@@ -115,10 +127,13 @@ function App() {
           <button onClick={Logout}>Logout</button>
           </div>
       ):
-      (
+      ( <>
         <LoginForm Login={Login} error={error}/>
+        <Webcam/>
+        </>
       )}
     </div>
+    
   );
 }
 
