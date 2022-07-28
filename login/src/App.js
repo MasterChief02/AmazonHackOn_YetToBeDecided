@@ -1,5 +1,6 @@
 import React,{useEffect, useState} from 'react';
 import LoginForm from './components/LoginForm';
+import PaymentPortal from './components/PaymentPortal/PaymentPortal';
 
 function useMouse(){
   const [mousePosition, setMousePosition]=useState({
@@ -24,7 +25,7 @@ function useMouse(){
   })
   return mousePosition
 }
-          
+
 function editDistance(s1, s2) {
   s1 = s1.toLowerCase();
   s2 = s2.toLowerCase();
@@ -67,15 +68,15 @@ function similarity(s1, s2) {
 
 function App() {
   const {x,y,movementX,movementY,timestamp}=useMouse();
-  console.log("x:",x," y:",y," time:",timestamp)
-  console.log("movementX:",movementX," movementY:",movementY)
+  // console.log("x:",x," y:",y," time:",timestamp)
+  // console.log("movementX:",movementX," movementY:",movementY)
   const adminUser = {
     name: "Varun Parashar",
     userid: "varun",
     password: "varun"
   }
   const [user,setUser]=useState({name:"",userid:""});
-  const [error,setError]=useState(""); 
+  const [error,setError]=useState("");
   const Login = details=> {
     console.log(details);
     if(details.userid===adminUser.userid){
@@ -95,7 +96,7 @@ function App() {
         setError("match")
       }
   }
-    
+
     else{
       console.log("details do not match")
       setError("match")
@@ -116,7 +117,10 @@ function App() {
           </div>
       ):
       (
-        <LoginForm Login={Login} error={error}/>
+        <>
+        {/* <LoginForm Login={Login} error={error}/> */}
+        <PaymentPortal />
+        </>
       )}
     </div>
   );
