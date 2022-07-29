@@ -198,7 +198,7 @@ canvas{
   position: absolute;
   bottom: 5px;
   left: 3px;
-  text-shadow: 0 0 4px #FFF;
+  text-shadow: 0 0 4px #000;
   background-position: 0%;
   background-size: 200%;
   color: #FE4880;
