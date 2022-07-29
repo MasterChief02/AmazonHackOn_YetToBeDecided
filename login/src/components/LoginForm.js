@@ -9,6 +9,7 @@ function LoginForm({Login,error}) {
         Login(details);
         }
     }
+    
   return (
     <>
     <form onSubmit={submitHandler}>
@@ -17,6 +18,7 @@ function LoginForm({Login,error}) {
             <h2>Net Banking</h2>
             {(error === "match") ? (<div style={{color: "#FFCE00", fontSize:"12px"}}className="error">{"Details do not match"}</div>):""}
             {(error === "invalid") ? (<div style={{color: "#FE4880", fontSize:"12px"}}className="error">{"Invalid user Warning!"}</div>):""}
+            {(error === "blocked") ? (<div style={{color: "#FE4880", fontSize:"12px"}}className="error">{"User Blocked!"}</div>):""}
             <div className="form-group">
             
                 <label htmlFor="userid"> User Id: </label>

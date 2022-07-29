@@ -4,20 +4,18 @@ import LoginForm from './components/LoginForm';
 
 function useMouse(){
   const [mousePosition, setMousePosition]=useState({
-    x:null,
-    y:null,
-    movementX:null,
-    movementY:null,
-    timestamp: null
+    x:0,
+    y:0,
+    timestamp:0,
+    output:""
   })
   useEffect(()=>{
     function handle(e){
       setMousePosition({
         x: e.pageX,
         y: e.pageY,
-        movementX: e.movementX,
-        movementY: e.movementY,
-        timestamp: Date.now()
+        timestamp: Date.now(),
+        output: e.pageX.toString()+","+e.pageY.toString()+","+Date.now().toString()
       });
     }
     document.addEventListener("mousemove",handle)
@@ -68,19 +66,9 @@ function similarity(s1, s2) {
 }
 
 function App() {
-  
-  useEffect(()=>{
-    fetch('http://localhost:8000/mouse')
-      .then(res => {
-        return res.json();
-      })
-      .then(data => {
-        console.log(data);
-      })
-  },[])
-  const {x,y,movementX,movementY,timestamp}=useMouse();
-  console.log("x:",x," y:",y," time:",timestamp)
-  console.log("movementX:",movementX," movementY:",movementY)
+  const {x,y,timestamp,output}=useMouse();
+  console.log(output)
+ 
   const adminUser = {
     name: "Varun Parashar",
     userid: "varun",
@@ -89,7 +77,28 @@ function App() {
   const [user,setUser]=useState({name:"",userid:""});
   const [error,setError]=useState(""); 
   const Login = details=> {
+    const requestOptions = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        _userid: details.userid,
+        _password: details.password
+      }),
+    };
+    fetch("http://localhost:4000/", requestOptions)
+      .then((res) => res.json())
+      .then((json) => {
+          console.log(json.response);
+          console.log("json response")
+          if (json.response==10) {
+          setError("invalid")
+          } else if (json.response==20) {
+          console.log("blocked");
+          setError("blocked")
+          } 
+      });
     console.log(details);
+    if(error===""){
     if(details.userid===adminUser.userid){
       if(details.password===adminUser.password){
       console.log("logged in")
@@ -111,6 +120,7 @@ function App() {
     else{
       console.log("details do not match")
       setError("match")
+    }
     }
   }
   const Logout = () => {
