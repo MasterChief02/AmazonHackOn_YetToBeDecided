@@ -14,7 +14,7 @@ function LoginForm({Login,error}) {
     <form onSubmit={submitHandler}>
        <div className="form-inner">
             
-            <h2>Login</h2>
+            <h2>Net Banking</h2>
             {(error === "match") ? (<div style={{color: "#FFCE00", fontSize:"12px"}}className="error">{"Details do not match"}</div>):""}
             {(error === "invalid") ? (<div style={{color: "#FE4880", fontSize:"12px"}}className="error">{"Invalid user Warning!"}</div>):""}
             <div className="form-group">
