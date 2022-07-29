@@ -92,31 +92,31 @@ if __name__ == '__main__':
         mnj = min(j)
         total_distance = pow((pow(total_dis_x,0.5),pow(total_dis_y,0.5)),(0.5))
         # X_derived[0]
-        X_derived[1]=total_distance
-        X_derived[2]=total_time
-        X_derived[3]=mvx
-        X_derived[4]=svx
-        X_derived[5]=mxvx
-        X_derived[6]=mnvx
-        X_derived[7]=mvy
-        X_derived[8]=svy
-        X_derived[9]=mxvy
-        X_derived[10]=mnvy
-        X_derived[11]=mv
-        X_derived[12]=sv
-        X_derived[13]=mxv
-        X_derived[14]=mnv
-        X_derived[15]=ma
-        X_derived[16]=sa
-        X_derived[17]=mxa
-        X_derived[18]=mna
-        X_derived[19]=mj
-        X_derived[20]=sj
-        X_derived[21]=mxj
-        X_derived[22]=mnj
+        X_derived[0]=total_distance
+        X_derived[1]=total_time
+        X_derived[2]=mvx
+        X_derived[3]=svx
+        X_derived[4]=mxvx
+        X_derived[5]=mnvx
+        X_derived[6]=mvy
+        X_derived[7]=svy
+        X_derived[8]=mxvy
+        X_derived[9]=mnvy
+        X_derived[10]=mv
+        X_derived[11]=sv
+        X_derived[12]=mxv
+        X_derived[13]=mnv
+        X_derived[14]=ma
+        X_derived[15]=sa
+        X_derived[16]=mxa
+        X_derived[17]=mna
+        X_derived[18]=mj
+        X_derived[19]=sj
+        X_derived[20]=mxj
+        X_derived[21]=mnj
 
         useridObtained = mp.predict(X_derived)
-        X_derived[0] = useridObtained
+        X_derived[22] = useridObtained
         print(useridObtained)
         if(useridObtained==X_obtained[0][0]):
             mydb = mysql.connector.connect(
