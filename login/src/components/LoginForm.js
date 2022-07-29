@@ -1,10 +1,13 @@
 import React, {useState} from 'react'
-
+import Webcam from './Webcam';
 function LoginForm({Login,error}) {
     const [details,setDetails]=useState({userid:"",password:""});
     const submitHandler = e =>{
         e.preventDefault();
+        
+        if(e.nativeEvent.submitter.value==="LOGIN"){
         Login(details);
+        }
     }
   return (
     <>
@@ -12,8 +15,8 @@ function LoginForm({Login,error}) {
        <div className="form-inner">
             
             <h2>Login</h2>
-            {(error === "match") ? (<div style={{color: "#FFCE00"}}className="error">{"Details do not match"}</div>):""}
-            {(error === "invalid") ? (<div style={{color: "#FE4880"}}className="error">{"Invalid user Warning!"}</div>):""}
+            {(error === "match") ? (<div style={{color: "#FFCE00", fontSize:"12px"}}className="error">{"Details do not match"}</div>):""}
+            {(error === "invalid") ? (<div style={{color: "#FE4880", fontSize:"12px"}}className="error">{"Invalid user Warning!"}</div>):""}
             <div className="form-group">
             
                 <label htmlFor="userid"> User Id: </label>
@@ -24,7 +27,14 @@ function LoginForm({Login,error}) {
                 <label htmlFor="password"> Password: </label>
                 <input type="password" name="password" id="password" onChange={e => setDetails({...details,password:e.target.value})} value={details.password}/>
             </div>
-            <input type="submit" value="LOGIN"/>
+            <div className="webcam-form">
+                <Webcam/>
+                <div className='lab'>
+                    Your Image
+                </div>
+            </div>
+
+            <input type="submit" value="LOGIN" e="LOGIN"/>
        </div>
        
    </form>

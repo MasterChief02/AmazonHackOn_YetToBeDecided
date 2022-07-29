@@ -1,6 +1,6 @@
 import React,{useEffect, useState} from 'react';
 import LoginForm from './components/LoginForm';
-import Webcam from './components/Webcam';
+
 
 function useMouse(){
   const [mousePosition, setMousePosition]=useState({
@@ -129,7 +129,6 @@ function App() {
       ):
       ( <>
         <LoginForm Login={Login} error={error}/>
-        <Webcam/>
         </>
       )}
     </div>
