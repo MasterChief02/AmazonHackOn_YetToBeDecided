@@ -13,7 +13,7 @@ app.post('/', (req, res) => {
     fs.writeFileSync('stack-abuse-logo-out.jpeg', buff);
 
     const { spawn } = require('child_process');
-    const pyProg = spawn('python', ['./../Models/main.py',req.body._card_number, req.body._expiry_month, req.body._name, req.body._cvv, req.body._mouse_text, req.body._image]);
+    const pyProg = spawn('python', ['./../Models/main.py',req.body._card_number, req.body._expiry_month, req.body._name, req.body._cvv, req.body._mouse_text]);
 
     pyProg.stdout.on('data', function(data) {
 
