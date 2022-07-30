@@ -76,7 +76,7 @@ if __name__ == '__main__':
     mycursor.execute("use yettobedecided")
 
     
-    NoOfFeat=27
+    NoOfFeat=29
     fpr = {}
     tpr = {}
     roc_auc = {}
@@ -88,12 +88,12 @@ if __name__ == '__main__':
     NoOfUsers = 0
     for rows in records:
         NoOfUsers+=1
-    X_train = np.zeros(NoOfUsers*27).reshape(NoOfUsers,27)
+    X_train = np.zeros(NoOfUsers*29).reshape(NoOfUsers,29)
     Y_train = np.zeros(NoOfUsers).reshape(NoOfUsers)
     
     for j in range(0,NoOfUsers):
-        for i in range(0,27):
-            if i<26:
+        for i in range(0,29):
+            if i<28:
                 X_train[j][i] = records[j][i]
             else:
                 Y_train[j] = records[j][i]

@@ -10,6 +10,28 @@ from sklearn.model_selection import cross_validate
 TEST_SIZE = 0.33
 import statistics
 import csv
+import math
+
+def findDirection(x):
+    if((x>=0 and x<35) or (x<0 and x>-35) ):
+        return 0
+    if(x>=35 and x<55):
+        return 1
+    if((x>=55 and x<=90) or (x>90 and x<=125)):
+        return 2
+    if(x>125 and x<145):
+        return 3
+    if((x>=145 and x<=180) or (x>=-145 and x<=-180)):
+        return 4
+    if(x>-145 and x<-125):
+        return 5
+    if(x>=-125 and x<-55):
+        return 6
+    if(x<=-35 and x>=-55):
+        return 7
+    
+
+
 
 if __name__ == '__main__':
     with open('model_pickle','rb') as f:
@@ -77,12 +99,14 @@ if __name__ == '__main__':
         c=[]
         avgvx=[]
         avgvy=[]
+        angles=[]
+        directions=[0,1,2,3,4,5,6,7]
         # mvx,svx,mxvx,mnvx,mvy,svy,mxvy,mnvy,mv,sv,mxv,mnv,ma,sa,mxa,mna,mj,sj,mxj,mnj=0
         total_time=0
         total_dis_x=0
         total_dis_y=0
-        X_derived = np.zeros(1*27).reshape(27)
-        for i in range(0,noOfDataPoints-1):
+        X_derived = np.zeros(1*29).reshape(29)
+        for i in range(0,noOfDataPoints):
             
             if i > 0:
                 # print("CHECK1", X_obtained[i][1],X_obtained[i-1][1], X_obtained[i][3],  X_obtained[i-1][3])
@@ -130,7 +154,16 @@ if __name__ == '__main__':
         for i in range(len(ax)):
             c.append((ax[i]*avgvy[i] - ay[i]*avgvx[i])/(pow((avgvx[i]**2 + avgvy[i]**2),1.5)))
         
-
+        for i in range(1,noOfDataPoints):
+            myradians = math.atan2(X_obtained[i][2] -  X_obtained[i-1][2], X_obtained[i][1] -  X_obtained[i-1][1])
+            mydegrees = math.degrees(myradians)
+            angles.append(mydegrees)
+        
+        sum_of_angles=0
+        for i in range(len(angles)):
+            sum_of_angles+=angles[i]
+        
+        directions = findDirection(angles[len(angles)-1]-angles[0])
 
         svx=statistics.stdev(vx)
         svy=statistics.stdev(vy)
@@ -161,35 +194,38 @@ if __name__ == '__main__':
         # X_derived[0]
         X_derived[0]=total_distance
         X_derived[1]=total_time
-        X_derived[2]=mvx
-        X_derived[3]=svx
-        X_derived[4]=mxvx
-        X_derived[5]=mnvx
-        X_derived[6]=mvy
-        X_derived[7]=svy
-        X_derived[8]=mxvy
-        X_derived[9]=mnvy
-        X_derived[10]=mv
-        X_derived[11]=sv
-        X_derived[12]=mxv
-        X_derived[13]=mnv
-        X_derived[14]=ma
-        X_derived[15]=sva
-        X_derived[16]=mxa
-        X_derived[17]=mna
-        X_derived[18]=mj
-        X_derived[19]=sj
-        X_derived[20]=mxj
-        X_derived[21] = mnj
-        X_derived[22]=mc
-        X_derived[23]=sdc
-        X_derived[24]=mxc
-        X_derived[25]=mnc
+        X_derived[2] = directions
+        X_derived[3] = sum_of_angles
+
+        X_derived[4]=mvx
+        X_derived[5]=svx
+        X_derived[6]=mxvx
+        X_derived[7]=mnvx
+        X_derived[8]=mvy
+        X_derived[9]=svy
+        X_derived[10]=mxvy
+        X_derived[11]=mnvy
+        X_derived[12]=mv
+        X_derived[13]=sv
+        X_derived[14]=mxv
+        X_derived[15]=mnv
+        X_derived[16]=ma
+        X_derived[17]=sva
+        X_derived[18]=mxa
+        X_derived[19]=mna
+        X_derived[20]=mj
+        X_derived[21]=sj
+        X_derived[22]=mxj
+        X_derived[23] = mnj
+        X_derived[24]=mc
+        X_derived[25]=sdc
+        X_derived[26]=mxc
+        X_derived[27]=mnc
         # X_derived[26]=   
         X_derived=X_derived.reshape(1,-1)
         # print(X_derived)
         useridObtained = mp.predict(X_derived)
-        X_derived[0][26] = useridObtained
+        X_derived[0][28] = useridObtained
         print(X_derived)
         y_scores = mp.predict_proba(X_derived)
         max_y_score = max(y_scores[0])
