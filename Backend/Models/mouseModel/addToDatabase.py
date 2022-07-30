@@ -133,7 +133,11 @@ def addToDatabase(s,userIDKnown):
 
         # print(len(vx), len(vy), len(ax), len(ay), len(j), len(a))
         for i in range(len(ax)):
-            c.append((ax[i]*avgvy[i] - ay[i]*avgvx[i])/(pow((avgvx[i]**2 + avgvy[i]**2),1.5)))
+
+            if((pow((avgvx[i]**2 + avgvy[i]**2),1.5))<0.00001):
+                c.append((ax[i]*avgvy[i] - ay[i]*avgvx[i])/(0.000001))
+            else:
+                c.append((ax[i]*avgvy[i] - ay[i]*avgvx[i])/(pow((avgvx[i]**2 + avgvy[i]**2),1.5)))
         
         for i in range(1,noOfDataPoints):
             myradians = math.atan2(X_obtained[i][2] -  X_obtained[i-1][2], X_obtained[i][1] -  X_obtained[i-1][1])
@@ -216,6 +220,7 @@ def addToDatabase(s,userIDKnown):
         mycursor.execute(sql,(float(X_derived[0]),float(X_derived[1]),float(X_derived[2]),float(X_derived[3]),float(X_derived[4]),float(X_derived[5]),float(X_derived[6]),float(X_derived[7]),float(X_derived[8]),float(X_derived[9]),float(X_derived[10]),float(X_derived[11]),float(X_derived[12]),float(X_derived[13]),float(X_derived[14]),float(X_derived[15]),float(X_derived[16]),float(X_derived[17]),float(X_derived[18]),float(X_derived[19]),float(X_derived[20]),float(X_derived[21]),float(X_derived[22]),float(X_derived[23]),float(X_derived[24]),float(X_derived[25]),float(X_derived[26]),float(X_derived[27]),float(X_derived[28])))
         mydb.commit()
 if __name__ == '__main__':
-    addToDatabase()      
+    s=input()
+    addToDatabase(s,1)      
 
             
