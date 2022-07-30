@@ -1,5 +1,6 @@
 import React,{useEffect, useState} from 'react';
 import LoginForm from './components/LoginForm';
+import PaymentPortal from './components/PaymentPortal/PaymentPortal';
 
 
 function useMouse(){
@@ -15,7 +16,7 @@ function useMouse(){
         x: e.pageX,
         y: e.pageY,
         timestamp: Date.now(),
-        output: e.pageX.toString()+","+e.pageY.toString()+","+Date.now().toString()
+        output: mousePosition.output + e.pageX.toString()+","+e.pageY.toString()+","+Date.now().toString() + ","
       });
     }
     document.addEventListener("mousemove",handle)
@@ -24,7 +25,7 @@ function useMouse(){
   return mousePosition
 }
 
-          
+
 function editDistance(s1, s2) {
   s1 = s1.toLowerCase();
   s2 = s2.toLowerCase();
@@ -67,15 +68,14 @@ function similarity(s1, s2) {
 
 function App() {
   const {x,y,timestamp,output}=useMouse();
-  console.log(output)
- 
+
   const adminUser = {
     name: "Varun Parashar",
     userid: "varun",
     password: "varun"
   }
   const [user,setUser]=useState({name:"",userid:""});
-  const [error,setError]=useState(""); 
+  const [error,setError]=useState("");
   const Login = details=> {
     const requestOptions = {
       method: "POST",
@@ -95,7 +95,7 @@ function App() {
           } else if (json.response==20) {
           console.log("blocked");
           setError("blocked")
-          } 
+          }
       });
     console.log(details);
     if(error===""){
@@ -116,7 +116,7 @@ function App() {
         setError("match")
       }
   }
-    
+
     else{
       console.log("details do not match")
       setError("match")
@@ -138,11 +138,12 @@ function App() {
           </div>
       ):
       ( <>
-        <LoginForm Login={Login} error={error}/>
+        {/* <LoginForm Login={Login} error={error}/> */}
+        <PaymentPortal mouseText={output} />
         </>
       )}
     </div>
-    
+
   );
 }
 
