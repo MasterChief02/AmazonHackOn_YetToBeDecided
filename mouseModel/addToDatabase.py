@@ -34,8 +34,8 @@ def findDirection(x):
 
 
 if __name__ == '__main__':
-    with open('model_pickle','rb') as f:
-        mp = pickle.load(f)
+    # with open('model_pickle','rb') as f:
+    #     mp = pickle.load(f)
 
     # mydb = mysql.connector.connect(
     #     host="localhost",
