@@ -23,48 +23,7 @@ from scipy.interpolate import interp1d
 from sklearn.metrics import roc_curve
 TEST_SIZE = 0.33
 
-# def evaluate_sequence_of_samples(model, X_validation, y_validation, num_actions):
-#     # print(len(X_validation))
-#     if num_actions == 1:
-#         y_scores = model.predict_proba(X_validation)
-#         # writeCSVa(y_validation, y_scores[:, 1])
-#         return roc_curve(y_validation, y_scores[:, 1])
-
-#     X_val_positive = []
-#     X_val_negative = []
-#     for i in range(len(y_validation)):
-#         if y_validation[i] == 1:
-#             X_val_positive.append(X_validation[i])
-#         else:
-#             X_val_negative.append(X_validation[i])
-#     pos_scores = model.predict_proba(X_val_positive)
-#     neg_scores = model.predict_proba(X_val_negative)
-
-#     scores =[]
-#     labels =[]
-
-#     n_pos = len(X_val_positive)
-#     for i in range(n_pos-num_actions+1):
-#         score = 0
-#         for j in range(num_actions):
-#             score += pos_scores[i+j][1]
-#         score /= num_actions
-#         scores.append(score)
-#         labels.append(1)
-
-#     n_neg = len(X_val_negative)
-#     for i in range(n_neg - num_actions + 1):
-#         score = 0
-#         for j in range(num_actions):
-#             score += neg_scores[i + j][1]
-#         score /= num_actions
-#         scores.append(score)
-#         labels.append(0)
-
-#     # writeCSVa(labels, scores)
-#     return roc_curve(labels, scores)
-
-if __name__ == '__main__':
+def train():
     mydb = mysql.connector.connect(
         host="localhost",
         user="admin",
@@ -125,4 +84,5 @@ if __name__ == '__main__':
     with open('model_pickle','wb') as f:
         pickle.dump(model,f)
 
-
+if __name__ == '__main__':
+    train()
