@@ -29,7 +29,7 @@ def findDirection(x):
         return 6
     if(x<=-35 and x>=-55):
         return 7
-    
+
 
 
 
@@ -51,7 +51,7 @@ def predict(s,userIDKnown):
                 X_obtained[i][2] = ls[index+1]
                 X_obtained[i][3] = ls[index+2]
                 index+=3
-       
+
 
         vx=[]
         vy=[]
@@ -73,15 +73,15 @@ def predict(s,userIDKnown):
         total_dis_y=0
         X_derived = np.zeros(1*29).reshape(29)
         for i in range(0,noOfDataPoints):
-            
+
             if i > 0:
                 # print("CHECK1", X_obtained[i][1],X_obtained[i-1][1], X_obtained[i][3],  X_obtained[i-1][3])
                 if((X_obtained[i][3]-X_obtained[i-1][3])==0):
                     vx.append((X_obtained[i][1] -  X_obtained[i-1][1])/(0.001))
                     vy.append((X_obtained[i][2] -  X_obtained[i-1][2])/(0.001))
                     # total_time+= (X_obtained[i][3]-X_obtained[i-1][3])
-                    
-                    
+
+
                 else:
                     vx.append((X_obtained[i][1] -  X_obtained[i-1][1])/(X_obtained[i][3]-X_obtained[i-1][3]))
                     vy.append((X_obtained[i][2] -  X_obtained[i-1][2])/(X_obtained[i][3]-X_obtained[i-1][3]))
@@ -94,12 +94,12 @@ def predict(s,userIDKnown):
                 ax.append((vx[i+1]-vx[i])/0.001)
                 ay.append((vy[i+1]-vy[i])/0.001)
                 a.append(pow((pow(ax[i],2))+(pow(ay[i],2)),(0.5)))
-                
+
             else:
                 ax.append((vx[i+1]-vx[i])/X_obtained[i+1][3]-X_obtained[i][3])
                 ay.append((vy[i+1]-vy[i])/X_obtained[i+1][3]-X_obtained[i][3])
                 a.append(pow((pow(ax[i],2))+(pow(ay[i],2)),(0.5)))
-        
+
         for i in range(len(a)-1):
             if((X_obtained[i][3]-X_obtained[i-1][3])==0):
                 jx.append((ax[i+1]-ax[i])/0.001)
@@ -119,16 +119,16 @@ def predict(s,userIDKnown):
         print(len(vx), len(vy), len(ax), len(ay), len(j), len(a))
         for i in range(len(ax)):
             c.append((ax[i]*avgvy[i] - ay[i]*avgvx[i])/(pow((avgvx[i]**2 + avgvy[i]**2),1.5)))
-        
+
         for i in range(1,noOfDataPoints):
             myradians = math.atan2(X_obtained[i][2] -  X_obtained[i-1][2], X_obtained[i][1] -  X_obtained[i-1][1])
             mydegrees = math.degrees(myradians)
             angles.append(mydegrees)
-        
+
         sum_of_angles=0
         for i in range(len(angles)):
             sum_of_angles+=angles[i]
-        
+
         directions = findDirection(angles[len(angles)-1]-angles[0])
 
         svx=statistics.stdev(vx)
@@ -187,23 +187,23 @@ def predict(s,userIDKnown):
         X_derived[25]=sdc
         X_derived[26]=mxc
         X_derived[27]=mnc
-        # X_derived[26]=   
+        # X_derived[26]=
         X_derived=X_derived.reshape(1,-1)
         # print(X_derived)
         useridObtained = mp.predict(X_derived)
         X_derived[0][28] = useridObtained
-        print(X_derived)
+        # print(X_derived)
         y_scores = mp.predict_proba(X_derived)
         max_y_score = max(y_scores[0])
         # print(y_scores.shape)
         relation_with_given_user = y_scores[0][userIDKnown-1]
-        
-        print(y_scores)
-        print("Score with given id: ")
-        print(relation_with_given_user)
-        
 
-        print("This user matches max with ",useridObtained)
+        # print(y_scores)
+        # print("Score with given id: ")
+        # print(relation_with_given_user)
+
+
+        # print("This user matches max with ",useridObtained)
         # userIDKnown=7
         if(useridObtained==userIDKnown):
             mydb = mysql.connector.connect(
@@ -216,10 +216,16 @@ def predict(s,userIDKnown):
             mycursor = mydb.cursor()
             mycursor.execute("use yettobedecided")
             sql = "insert into derivedatt values(X_derived[0],X_derived[1],X_derived[2],X_derived[3],X_derived[4],X_derived[5],X_derived[6],X_derived[7],X_derived[8],X_derived[9],X_derived[10],X_derived[11],X_derived[12],X_derived[13],X_derived[14],X_derived[15],X_derived[16],X_derived[17],X_derived[18],X_derived[19],X_derived[20],X_derived[21],X_derived[22])"
+            mycursor.execute(sql)
+
+
+
         else:
             print("Wrong user detected")
+        return relation_with_given_user
+
 
 if __name__ == '__main__':
-    predict()       
+    predict()
 
-            
+

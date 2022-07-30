@@ -7,13 +7,28 @@ const app = express()
 app.use(cors())
 app.use(express.json({limit: '50mb'}));
 
-app.post('/', (req, res) => {
+app.post('/payment', (req, res) => {
     console.log(req.body);
     let buff = Buffer.from(req.body._image.substr(23), 'base64');
     fs.writeFileSync('stack-abuse-logo-out.jpeg', buff);
 
     const { spawn } = require('child_process');
-    const pyProg = spawn('python', ['./../Models/main.py',req.body._card_number, req.body._expiry_month, req.body._name, req.body._cvv, req.body._mouse_text]);
+    const pyProg = spawn('python', ['./../Models/main.py', req.body._mouse_text, req.body._card_number, req.body._expiry_month, req.body._name, req.body._cvv]);
+
+    pyProg.stdout.on('data', function(data) {
+
+        console.log(data.toString());
+        res.json({response:data.toString()});
+    });
+})
+
+app.post('/login', (req, res) => {
+    console.log(req.body);
+    let buff = Buffer.from(req.body._image.substr(23), 'base64');
+    fs.writeFileSync('stack-abuse-logo-out.jpeg', buff);
+
+    const { spawn } = require('child_process');
+    const pyProg = spawn('python', ['./../Models/main.py',req.body._userid, req.body._password, req.body._send]);
 
     pyProg.stdout.on('data', function(data) {
 
