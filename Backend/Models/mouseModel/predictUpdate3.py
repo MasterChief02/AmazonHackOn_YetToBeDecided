@@ -33,29 +33,14 @@ def findDirection(x):
 
 
 
-if __name__ == '__main__':
-    # with open('model_pickle','rb') as f:
-    #     mp = pickle.load(f)
 
-    # mydb = mysql.connector.connect(
-    #     host="localhost",
-    #     user="admin",
-    #     password="password",
-    #     database="yettobedecided"
-    #     )
-    # print(len(sys.argv))
-    # mycursor = mydb.cursor()
-    # mycursor.execute("use yettobedecided")
 
-    # sql = "select * from mousedata"
-    # mycursor.execute(sql)
-    # records = mycursor.fetchall()
-    # with open('test.csv','r') as csv_file:
-    #     csv_reader=csv.reader(csv_file)
-    #     next(csv_reader)
-        # data_list = list(csv.reader(csv_reader))
-        s=input()
-        userIDKnown = int(input())
+def predict(s,userIDKnown):
+    with open('model_pickle','rb') as f:
+        mp = pickle.load(f)
+
+        # s=input()
+        # userIDKnown = int(input())
         ls=s.split(",")
         noOfDataPoints= int(len(ls)/3)
         X_obtained = np.zeros(4*noOfDataPoints).reshape(noOfDataPoints,4)
@@ -67,26 +52,7 @@ if __name__ == '__main__':
                 X_obtained[i][3] = ls[index+2]
                 index+=3
        
-        # count=0
-        
 
-        # for i in csv_reader:
-        #     # print(type(i))
-        #     if(count < 10):
-        #         print(len(i))
-        #         # noOfDataPoints+=1
-        #         print(i[0],i[1],i[2],"MAJOR CHECK")
-        #         X_obtained[count][3] = i[0]
-        #         X_obtained[count][1] = i[1]
-        #         X_obtained[count][2] = i[2]
-        #         print(X_obtained[count][3],"ACCHA")
-        #         count+=1
-        #     else:
-        #         break
-       
-          
-            
-        # print(X_obtained,"CHECK00")
         vx=[]
         vy=[]
         ax=[]
@@ -222,36 +188,38 @@ if __name__ == '__main__':
         X_derived[26]=mxc
         X_derived[27]=mnc
         # X_derived[26]=   
-        # X_derived=X_derived.reshape(1,-1)
+        X_derived=X_derived.reshape(1,-1)
         # print(X_derived)
-        # useridObtained = mp.predict(X_derived)
-        X_derived[0][28] = userIDKnown
+        useridObtained = mp.predict(X_derived)
+        X_derived[0][28] = useridObtained
         print(X_derived)
-        # y_scores = mp.predict_proba(X_derived)
-        # max_y_score = max(y_scores[0])
-        # # print(y_scores.shape)
-        # relation_with_given_user = y_scores[0][userIDKnown-1]
+        y_scores = mp.predict_proba(X_derived)
+        max_y_score = max(y_scores[0])
+        # print(y_scores.shape)
+        relation_with_given_user = y_scores[0][userIDKnown-1]
         
-        # print(y_scores)
-        # print("Score with given id: ")
-        # print(relation_with_given_user)
+        print(y_scores)
+        print("Score with given id: ")
+        print(relation_with_given_user)
         
 
-        # print("This user matches max with ",useridObtained)
+        print("This user matches max with ",useridObtained)
         # userIDKnown=7
-        
-        mydb = mysql.connector.connect(
-        host="localhost",
-        user="admin",
-        password="password",
-        database="yettobedecided"
-        )
-        print(len(sys.argv))
-        mycursor = mydb.cursor()
-        mycursor.execute("use yettobedecided")
-        sql = "insert into derivedatt values(X_derived[0],X_derived[1],X_derived[2],X_derived[3],X_derived[4],X_derived[5],X_derived[6],X_derived[7],X_derived[8],X_derived[9],X_derived[10],X_derived[11],X_derived[12],X_derived[13],X_derived[14],X_derived[15],X_derived[16],X_derived[17],X_derived[18],X_derived[19],X_derived[20],X_derived[21],X_derived[22],X_derived[23],X_derived[24],X_derived[25],X_derived[26],X_derived[27],X_derived[28])"
-        
+        if(useridObtained==userIDKnown):
+            mydb = mysql.connector.connect(
+            host="localhost",
+            user="admin",
+            password="password",
+            database="yettobedecided"
+            )
+            print(len(sys.argv))
+            mycursor = mydb.cursor()
+            mycursor.execute("use yettobedecided")
+            sql = "insert into derivedatt values(X_derived[0],X_derived[1],X_derived[2],X_derived[3],X_derived[4],X_derived[5],X_derived[6],X_derived[7],X_derived[8],X_derived[9],X_derived[10],X_derived[11],X_derived[12],X_derived[13],X_derived[14],X_derived[15],X_derived[16],X_derived[17],X_derived[18],X_derived[19],X_derived[20],X_derived[21],X_derived[22])"
+        else:
+            print("Wrong user detected")
 
-        
+if __name__ == '__main__':
+    predict()       
 
             
