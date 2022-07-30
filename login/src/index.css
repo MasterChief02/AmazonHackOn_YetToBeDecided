@@ -136,7 +136,7 @@ form .form-inner input[type="submit"]:hover, .welcome button:hover{
   height: 60px;
   width: 90px;
   position: relative;
-  align-self:auto;
+  align-self:left;
   bottom: 5px;
   left: 12px;
   top: 5px;
@@ -144,20 +144,23 @@ form .form-inner input[type="submit"]:hover, .welcome button:hover{
 }
 .camera{
   position: relative;
-
+  
 }
 .result{
   position: relative;
   display: flex;
   align-items: right;
   transition: 0.4s;
+  
 }
 
 
 video{
-  width:100%;
   max-width: 100%;
-  height: auto;
+  width:90px;
+  
+  height: 50px;
+
 }
 
 .webcam button{
@@ -166,7 +169,7 @@ video{
   width: 28px;
   position: absolute;
   bottom: 5px;
-  left: 3px;
+  left: 13px;
   border: none;
   outline: none;
   padding: 2px 4px;
@@ -186,7 +189,7 @@ video{
 canvas{
   background-color: #F4F4F1;
   height: 51px;
-  width: 90px;
+  width: 70px;
   position: absolute;
   bottom: 3.5px;
   left: 100px
@@ -208,4 +211,9 @@ canvas{
   transition: 0.4s;
   left:54%;
   bottom:12.33%
+}
+Webcam{
+  height: 0px;
+  width: 0px;
+  visibility: hidden;
 }
