@@ -74,18 +74,21 @@ if __name__ == '__main__':
         a=[]
         j=[]
         v=[]
+        c=[]
+        avgvx=[]
+        avgvy=[]
         # mvx,svx,mxvx,mnvx,mvy,svy,mxvy,mnvy,mv,sv,mxv,mnv,ma,sa,mxa,mna,mj,sj,mxj,mnj=0
         total_time=0
         total_dis_x=0
         total_dis_y=0
-        X_derived = np.zeros(1*23).reshape(23)
+        X_derived = np.zeros(1*27).reshape(27)
         for i in range(0,noOfDataPoints-1):
             
             if i > 0:
                 # print("CHECK1", X_obtained[i][1],X_obtained[i-1][1], X_obtained[i][3],  X_obtained[i-1][3])
                 if((X_obtained[i][3]-X_obtained[i-1][3])==0):
-                    vx.append((X_obtained[i][1] -  X_obtained[i-1][1])/(0.000001))
-                    vy.append((X_obtained[i][2] -  X_obtained[i-1][2])/(0.000001))
+                    vx.append((X_obtained[i][1] -  X_obtained[i-1][1])/(0.001))
+                    vy.append((X_obtained[i][2] -  X_obtained[i-1][2])/(0.001))
                     # total_time+= (X_obtained[i][3]-X_obtained[i-1][3])
                     
                     
@@ -98,8 +101,9 @@ if __name__ == '__main__':
 
         for i in range(len(vx)-1):
             if((X_obtained[i][3]-X_obtained[i-1][3])==0):
-                ax.append((vx[i+1]-vx[i])/0.0001)
-                ay.append((vy[i+1]-vy[i])/0.0001)
+                ax.append((vx[i+1]-vx[i])/0.001)
+                ay.append((vy[i+1]-vy[i])/0.001)
+                a.append(pow((pow(ax[i],2))+(pow(ay[i],2)),(0.5)))
                 
             else:
                 ax.append((vx[i+1]-vx[i])/X_obtained[i+1][3]-X_obtained[i][3])
@@ -108,15 +112,23 @@ if __name__ == '__main__':
         
         for i in range(len(a)-1):
             if((X_obtained[i][3]-X_obtained[i-1][3])==0):
-                jx.append((ax[i+1]-vx[i])/0.00001)
-                jy.append((ay[i+1]-vy[i])/0.00001)
+                jx.append((ax[i+1]-ax[i])/0.001)
+                jy.append((ay[i+1]-ay[i])/0.001)
+                j.append(pow((pow(jx[i],2))+(pow(jy[i],2)),(0.5)))
             else:
-                jx.append((ax[i+1]-vx[i])/X_obtained[i+1][3]-X_obtained[i][3])
-                jy.append((ay[i+1]-vy[i])/X_obtained[i+1][3]-X_obtained[i][3])
+                jx.append((ax[i+1]-ax[i])/X_obtained[i+1][3]-X_obtained[i][3])
+                jy.append((ay[i+1]-ay[i])/X_obtained[i+1][3]-X_obtained[i][3])
                 j.append(pow((pow(jx[i],2))+(pow(jy[i],2)),(0.5)))
 
         for i in range(len(vx)-1):
                 v.append(pow((pow(vx[i],2))+(pow(vy[i],2)),(0.5)))
+        for i in range(len(vx)-1):
+            avgvx.append((vx[i]+vx[i+1])/2)
+            avgvy.append((vy[i]+vy[i+1])/2)
+
+        print(len(vx), len(vy), len(ax), len(ay), len(j), len(a))
+        for i in range(len(ax)):
+            c.append((ax[i]*avgvy[i] - ay[i]*avgvx[i])/(pow((avgvx[i]**2 + avgvy[i]**2),1.5)))
         
 
 
@@ -140,47 +152,57 @@ if __name__ == '__main__':
         mj = statistics.mean(j)
         mxj = max(j)
         mnj = min(j)
+        sdc = statistics.stdev(c)
+        mc = statistics.mean(c)
+        mxc = max(c)
+        mnc = min(c)
         # print("FINAL CHECK", total_dis_x, total_dis_y)
         total_distance = ((total_dis_x**2)+(total_dis_y**2))**0.5
         # X_derived[0]
-        X_derived[1]=total_distance
-        X_derived[2]=total_time
-        X_derived[3]=mvx
-        X_derived[4]=svx
-        X_derived[5]=mxvx
-        X_derived[6]=mnvx
-        X_derived[7]=mvy
-        X_derived[8]=svy
-        X_derived[9]=mxvy
-        X_derived[10]=mnvy
-        X_derived[11]=mv
-        X_derived[12]=sv
-        X_derived[13]=mxv
-        X_derived[14]=mnv
-        X_derived[15]=ma
-        X_derived[16]=sva
-        X_derived[17]=mxa
-        X_derived[18]=mna
-        X_derived[19]=mj
-        X_derived[20]=sj
-        X_derived[21]=mxj
-        X_derived[22]=mnj
-
+        X_derived[0]=total_distance
+        X_derived[1]=total_time
+        X_derived[2]=mvx
+        X_derived[3]=svx
+        X_derived[4]=mxvx
+        X_derived[5]=mnvx
+        X_derived[6]=mvy
+        X_derived[7]=svy
+        X_derived[8]=mxvy
+        X_derived[9]=mnvy
+        X_derived[10]=mv
+        X_derived[11]=sv
+        X_derived[12]=mxv
+        X_derived[13]=mnv
+        X_derived[14]=ma
+        X_derived[15]=sva
+        X_derived[16]=mxa
+        X_derived[17]=mna
+        X_derived[18]=mj
+        X_derived[19]=sj
+        X_derived[20]=mxj
+        X_derived[21] = mnj
+        X_derived[22]=mc
+        X_derived[23]=sdc
+        X_derived[24]=mxc
+        X_derived[25]=mnc
+        # X_derived[26]=   
         X_derived=X_derived.reshape(1,-1)
         # print(X_derived)
         useridObtained = mp.predict(X_derived)
+        X_derived[0][26] = useridObtained
+        print(X_derived)
         y_scores = mp.predict_proba(X_derived)
         max_y_score = max(y_scores[0])
         # print(y_scores.shape)
         relation_with_given_user = y_scores[0][userIDKnown-1]
-        print("This user matches max with")
+        
         print(y_scores)
         print("Score with given id: ")
         print(relation_with_given_user)
-        X_derived[0] = useridObtained
+        
 
-        print(useridObtained, "This is the predicted user id")
-        userIDKnown=7
+        print("This user matches max with ",useridObtained)
+        # userIDKnown=7
         if(useridObtained==userIDKnown):
             mydb = mysql.connector.connect(
             host="localhost",
