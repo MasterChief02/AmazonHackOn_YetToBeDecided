@@ -80,35 +80,37 @@ function App() {
   const [error,setError]=useState(""); 
   const Login = details=> {
     if(details.photoref!=""){
-    const requestOptions = {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        _userid: details.userid,
-        _password: details.password,
-        _send: send,
-        _image: details.photoref
-      }),
-    };
-    fetch("http://localhost:4000/", requestOptions)
-      .then((res) => res.json())
-      .then((json) => {
-          console.log(json.response);
-          console.log("json response")
-          if (json.response==10) {
-          setError("invalid")
-          } else if (json.response==20) {
-          console.log("blocked");
-          setError("blocked")
-          } 
-      });
+    // const requestOptions = {
+    //   method: "POST",
+    //   headers: { "Content-Type": "application/json" },
+    //   body: JSON.stringify({
+    //     _userid: details.userid,
+    //     _password: details.password,
+    //     _send: send,
+    //     _image: details.photoref
+    //   }),
+    // };
+    // fetch("http://localhost:4000/", requestOptions)
+    //   .then((res) => res.json())
+    //   .then((json) => {
+    //       console.log(json.response);
+    //       console.log("json response")
+    //       if (json.response==10) {
+    //       setError("invalid")
+    //       } else if (json.response==20) {
+    //       console.log("blocked");
+    //       setError("blocked")
+    //       } 
+    //   });
     }
-    else{
-      setError("nophoto");
-    }
+    
     console.log(details);
     if(error===""){
-    if(details.userid===adminUser.userid){
+    if(details.photoref===""){
+        setError("nophoto")
+        console.log("no photo")
+      }
+    else if(details.userid===adminUser.userid){
       if(details.password===adminUser.password){
       console.log("logged in")
       setUser({

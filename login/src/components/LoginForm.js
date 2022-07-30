@@ -21,10 +21,10 @@ function LoginForm({Login,error}) {
        <div className="form-inner">
             
             <h2>Net Banking</h2>
-            {(error === "match") ? (<div style={{color: "#FFCE00", fontSize:"12px"}}className="error">{"Details do not match"}</div>):""}
-            {(error === "invalid") ? (<div style={{color: "#FE4880", fontSize:"12px"}}className="error">{"Invalid user Warning!"}</div>):""}
-            {(error === "blocked") ? (<div style={{color: "#FE4880", fontSize:"12px"}}className="error">{"User Blocked!"}</div>):""}
-            {(error === "nophoto") ? (<div style={{color: "#FFCE00", fontSize:"12px"}}className="error">{"Please add your photo"}</div>):""}
+            {(error === "match") ? (<div style={{color: "#FFCE00", fontSize:"9px"}}className="error">{"Invalid Details, Refresh to continue"}</div>):""}
+            {(error === "invalid") ? (<div style={{color: "#FE4880", fontSize:"9px"}}className="error">{"Warning!, Refresh to continue"}</div>):""}
+            {(error === "blocked") ? (<div style={{color: "#FE4880", fontSize:"9px"}}className="error">{"User Blocked!"}</div>):""}
+            {(error === "nophoto") ? (<div style={{color: "#FFCE00", fontSize:"9px"}}className="error">{"No Photo, Refresh to continue"}</div>):""}
             <div className="form-group">
             
                 <label htmlFor="userid"> User Id: </label>
