@@ -12,7 +12,7 @@ import sys
 import mysql.connector
 
 # if __name__ == "__main__":
-    
+
 if __name__ == '__main__':
     mydb = mysql.connector.connect(
         host="localhost",
@@ -29,10 +29,9 @@ if __name__ == '__main__':
         ('varun2', 'var123'),
         ('yogeshAI', 'passAI'),
         ('devraj2000', 'devok')]
-    mycursor.executemany(sql1,val1) 
+    mycursor.executemany(sql1,val1)
     mycursor.execute("create table mousedata(userid int , x int, y int, timestamp time, foreign key(userid) references users(userid) )")
-    mycursor.execute("create table derivedAtt(userid int, traveled_distance_pixel float(5), elapsed_time float(5), mean_vx float(5), sd_vx float(5), max_vx float(5), min_vx float(5), mean_vy float(5), sd_vy float(5), max_vy float(5), min_vy float(5), mean_v float(5), sd_v float(5), max_v float(5), min_v float(5), mean_a float(5), sd_a float(5), max_a float(5), min_a float(5), mean_jerk float(5), sd_jerk float(5), max_jerk float(5), min_jerk float(5))")
+    mycursor.execute("create table derivedatt(traveled_distance_pixel float(5), elapsed_time float(5),direction int,sum_of_angles float(5), mean_vx float(5), sd_vx float(5), max_vx float(5), min_vx float(5), mean_vy float(5), sd_vy float(5), max_vy float(5), min_vy float(5), mean_v float(5), sd_v float(5), max_v float(5), min_v float(5), mean_a float(5), sd_a float(5), max_a float(5), min_a float(5), mean_jerk float(5), sd_jerk float(5), max_jerk float(5), min_jerk float(5),mean_curve float(5),sd_curve float(5), max_curve float(5),min_curve float(5),userid int)")
     mydb.commit()
     print(mycursor.rowcount, "was inserted.")
-    
-    
+

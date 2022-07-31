@@ -36,11 +36,12 @@ def findDirection(x):
 
 
 def predict(s,userIDKnown):
-    with open('model_pickle','rb') as f:
+    with open('/mnt/ntfs/Projects/Hackathon/AmazonHackOn_YetToBeDecided/model_pickle','rb') as f:
         mp = pickle.load(f)
 
         # s=input()
         # userIDKnown = int(input())
+        # print("Starting predict")
         ls=s.split(",")
         noOfDataPoints= int(len(ls)/3)
         X_obtained = np.zeros(4*noOfDataPoints).reshape(noOfDataPoints,4)
@@ -116,9 +117,12 @@ def predict(s,userIDKnown):
             avgvx.append((vx[i]+vx[i+1])/2)
             avgvy.append((vy[i]+vy[i+1])/2)
 
-        print(len(vx), len(vy), len(ax), len(ay), len(j), len(a))
+        # print(len(vx), len(vy), len(ax), len(ay), len(j), len(a))
         for i in range(len(ax)):
-            c.append((ax[i]*avgvy[i] - ay[i]*avgvx[i])/(pow((avgvx[i]**2 + avgvy[i]**2),1.5)))
+            if(pow((avgvx[i]**2 + avgvy[i]**2),1.5<0.0001)):
+                c.append((ax[i]*avgvy[i] - ay[i]*avgvx[i])/0.000001)
+            else:
+                c.append((ax[i]*avgvy[i] - ay[i]*avgvx[i])/(pow((avgvx[i]**2 + avgvy[i]**2),1.5)))
 
         for i in range(1,noOfDataPoints):
             myradians = math.atan2(X_obtained[i][2] -  X_obtained[i-1][2], X_obtained[i][1] -  X_obtained[i-1][1])
@@ -190,6 +194,7 @@ def predict(s,userIDKnown):
         # X_derived[26]=
         X_derived=X_derived.reshape(1,-1)
         # print(X_derived)
+        # print("Just before predict")
         useridObtained = mp.predict(X_derived)
         X_derived[0][28] = useridObtained
         # print(X_derived)
@@ -198,9 +203,9 @@ def predict(s,userIDKnown):
         # print(y_scores.shape)
         relation_with_given_user = y_scores[0][userIDKnown-1]
 
-        # print(y_scores)
+        # print(y_scores,"yScores")
         # print("Score with given id: ")
-        # print(relation_with_given_user)
+        # print(relation_with_given_user,"SEE HERE")
 
 
         # print("This user matches max with ",useridObtained)
@@ -215,17 +220,20 @@ def predict(s,userIDKnown):
             print(len(sys.argv))
             mycursor = mydb.cursor()
             mycursor.execute("use yettobedecided")
-            sql = "insert into derivedatt values(X_derived[0],X_derived[1],X_derived[2],X_derived[3],X_derived[4],X_derived[5],X_derived[6],X_derived[7],X_derived[8],X_derived[9],X_derived[10],X_derived[11],X_derived[12],X_derived[13],X_derived[14],X_derived[15],X_derived[16],X_derived[17],X_derived[18],X_derived[19],X_derived[20],X_derived[21],X_derived[22])"
-            mycursor.execute(sql)
+            sql = "insert into derivedatt values(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
+            mycursor.execute(sql,(float(X_derived[0][0]),float(X_derived[0][1]),float(X_derived[0][2]),float(X_derived[0][3]),float(X_derived[0][4]),float(X_derived[0][5]),float(X_derived[0][6]),float(X_derived[0][7]),float(X_derived[0][8]),float(X_derived[0][9]),float(X_derived[0][10]),float(X_derived[0][11]),float(X_derived[0][12]),float(X_derived[0][13]),float(X_derived[0][14]),float(X_derived[0][15]),float(X_derived[0][16]),float(X_derived[0][17]),float(X_derived[0][18]),float(X_derived[0][19]),float(X_derived[0][20]),float(X_derived[0][21]),float(X_derived[0][22]),float(X_derived[0][23]),float(X_derived[0][24]),float(X_derived[0][25]),float(X_derived[0][26]),float(X_derived[0][27]),int(X_derived[0][28])))
+            mydb.commit()
 
 
 
-        else:
-            print("Wrong user detected")
+
+            # print("Wrong user detected")
         return relation_with_given_user
 
 
 if __name__ == '__main__':
-    predict()
+    s=input()
+
+    predict(s,1)
 
 

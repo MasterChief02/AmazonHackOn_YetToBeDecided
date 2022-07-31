@@ -11,11 +11,14 @@ import numpy as np
 import pandas as pd
 import sys
 import mysql.connector
-
+import os.path
 def main(s,id):
-    if(exists('model_pickle')):
-        predict(s,id)
+    if(os.path.exists('/mnt/ntfs/Projects/Hackathon/AmazonHackOn_YetToBeDecided/model_pickle')):
+        # print("HERE",id)
+        return predict(s,id)
+        # print("HERE1")
     else:
+        # print("DEKHIO")
         addToDatabase(s,id)
+        # print("DEKHIO2.0")
         return 1
-

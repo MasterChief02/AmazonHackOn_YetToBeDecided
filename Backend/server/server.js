@@ -10,7 +10,7 @@ app.use(express.json({limit: '50mb'}));
 app.post('/payment', (req, res) => {
     console.log(req.body);
     let buff = Buffer.from(req.body._image.substr(23), 'base64');
-    fs.writeFileSync('stack-abuse-logo-out.jpeg', buff);
+    fs.writeFileSync('test.jpeg', buff);
 
     const { spawn } = require('child_process');
     const pyProg = spawn('python', ['./../Models/main.py', req.body._mouse_text, req.body._card_number, req.body._expiry_month, req.body._name, req.body._cvv]);
@@ -25,10 +25,10 @@ app.post('/payment', (req, res) => {
 app.post('/login', (req, res) => {
     console.log(req.body);
     let buff = Buffer.from(req.body._image.substr(23), 'base64');
-    fs.writeFileSync('stack-abuse-logo-out.jpeg', buff);
+    fs.writeFileSync('test.jpeg', buff);
 
     const { spawn } = require('child_process');
-    const pyProg = spawn('python', ['./../Models/main.py',req.body._userid, req.body._password, req.body._send]);
+    const pyProg = spawn('python', ['./../Models/main.py',req.body._send, req.body._userid, req.body._password, ]);
 
     pyProg.stdout.on('data', function(data) {
 

@@ -29,7 +29,7 @@ def findDirection(x):
         return 6
     if(x<=-35 and x>=-55):
         return 7
-    
+
 
 
 
@@ -37,6 +37,7 @@ def findDirection(x):
 def addToDatabase(s,userIDKnown):
         # s=input()
         # userIDKnown = int(input())
+        # print(userIDKnown,"MAJOR CHECK")
         ls=s.split(",")
         noOfDataPoints= int(len(ls)/3)
         X_obtained = np.zeros(4*noOfDataPoints).reshape(noOfDataPoints,4)
@@ -47,9 +48,9 @@ def addToDatabase(s,userIDKnown):
                 X_obtained[i][2] = ls[index+1]
                 X_obtained[i][3] = ls[index+2]
                 index+=3
-       
+
         # count=0
-        
+
 
         # for i in csv_reader:
         #     # print(type(i))
@@ -64,9 +65,9 @@ def addToDatabase(s,userIDKnown):
         #         count+=1
         #     else:
         #         break
-       
-          
-            
+
+
+
         # print(X_obtained,"CHECK00")
         vx=[]
         vy=[]
@@ -88,15 +89,15 @@ def addToDatabase(s,userIDKnown):
         total_dis_y=0
         X_derived = np.zeros(1*29).reshape(29)
         for i in range(0,noOfDataPoints):
-            
+
             if i > 0:
                 # print("CHECK1", X_obtained[i][1],X_obtained[i-1][1], X_obtained[i][3],  X_obtained[i-1][3])
                 if((X_obtained[i][3]-X_obtained[i-1][3])==0):
                     vx.append((X_obtained[i][1] -  X_obtained[i-1][1])/(0.001))
                     vy.append((X_obtained[i][2] -  X_obtained[i-1][2])/(0.001))
                     # total_time+= (X_obtained[i][3]-X_obtained[i-1][3])
-                    
-                    
+
+
                 else:
                     vx.append((X_obtained[i][1] -  X_obtained[i-1][1])/(X_obtained[i][3]-X_obtained[i-1][3]))
                     vy.append((X_obtained[i][2] -  X_obtained[i-1][2])/(X_obtained[i][3]-X_obtained[i-1][3]))
@@ -109,12 +110,12 @@ def addToDatabase(s,userIDKnown):
                 ax.append((vx[i+1]-vx[i])/0.001)
                 ay.append((vy[i+1]-vy[i])/0.001)
                 a.append(pow((pow(ax[i],2))+(pow(ay[i],2)),(0.5)))
-                
+
             else:
                 ax.append((vx[i+1]-vx[i])/X_obtained[i+1][3]-X_obtained[i][3])
                 ay.append((vy[i+1]-vy[i])/X_obtained[i+1][3]-X_obtained[i][3])
                 a.append(pow((pow(ax[i],2))+(pow(ay[i],2)),(0.5)))
-        
+
         for i in range(len(a)-1):
             if((X_obtained[i][3]-X_obtained[i-1][3])==0):
                 jx.append((ax[i+1]-ax[i])/0.001)
@@ -138,16 +139,16 @@ def addToDatabase(s,userIDKnown):
                 c.append((ax[i]*avgvy[i] - ay[i]*avgvx[i])/(0.000001))
             else:
                 c.append((ax[i]*avgvy[i] - ay[i]*avgvx[i])/(pow((avgvx[i]**2 + avgvy[i]**2),1.5)))
-        
+
         for i in range(1,noOfDataPoints):
             myradians = math.atan2(X_obtained[i][2] -  X_obtained[i-1][2], X_obtained[i][1] -  X_obtained[i-1][1])
             mydegrees = math.degrees(myradians)
             angles.append(mydegrees)
-        
+
         sum_of_angles=0
         for i in range(len(angles)):
             sum_of_angles+=angles[i]
-        
+
         directions = findDirection(angles[len(angles)-1]-angles[0])
 
         svx=statistics.stdev(vx)
@@ -206,7 +207,8 @@ def addToDatabase(s,userIDKnown):
         X_derived[25]=sdc
         X_derived[26]=mxc
         X_derived[27]=mnc
-        X_derived[28] = userIDKnown
+        X_derived[28] = int(userIDKnown)
+        # print(X_derived[28],"MAJOR CHECK 2.0")
         mydb = mysql.connector.connect(
         host="localhost",
         user="admin",
@@ -217,10 +219,10 @@ def addToDatabase(s,userIDKnown):
         mycursor = mydb.cursor()
         mycursor.execute("use yettobedecided")
         sql = "insert into derivedatt values(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
-        mycursor.execute(sql,(float(X_derived[0]),float(X_derived[1]),float(X_derived[2]),float(X_derived[3]),float(X_derived[4]),float(X_derived[5]),float(X_derived[6]),float(X_derived[7]),float(X_derived[8]),float(X_derived[9]),float(X_derived[10]),float(X_derived[11]),float(X_derived[12]),float(X_derived[13]),float(X_derived[14]),float(X_derived[15]),float(X_derived[16]),float(X_derived[17]),float(X_derived[18]),float(X_derived[19]),float(X_derived[20]),float(X_derived[21]),float(X_derived[22]),float(X_derived[23]),float(X_derived[24]),float(X_derived[25]),float(X_derived[26]),float(X_derived[27]),float(X_derived[28])))
+        mycursor.execute(sql,(float(X_derived[0]),float(X_derived[1]),float(X_derived[2]),float(X_derived[3]),float(X_derived[4]),float(X_derived[5]),float(X_derived[6]),float(X_derived[7]),float(X_derived[8]),float(X_derived[9]),float(X_derived[10]),float(X_derived[11]),float(X_derived[12]),float(X_derived[13]),float(X_derived[14]),float(X_derived[15]),float(X_derived[16]),float(X_derived[17]),float(X_derived[18]),float(X_derived[19]),float(X_derived[20]),float(X_derived[21]),float(X_derived[22]),float(X_derived[23]),float(X_derived[24]),float(X_derived[25]),float(X_derived[26]),float(X_derived[27]),int(X_derived[28])))
         mydb.commit()
 if __name__ == '__main__':
     s=input()
-    addToDatabase(s,1)      
+    addToDatabase(s,2)
 
-            
+

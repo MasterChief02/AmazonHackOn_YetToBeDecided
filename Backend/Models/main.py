@@ -31,20 +31,23 @@ def start():
     # mycursor.execute(sqlFetchUserID, username)
     # result = mycursor.fetchall()
     # id=result[0][0]
-    user_id = 1
+    user_id = 2
 
-    mouse_string = sys.argv[1][:-1]
+    mouse_string = sys.argv[1]
 
-    # temp = sys.stdout
-    # sys.stdout = open(os.devnull, "w")
+    temp = sys.stdout
+    sys.stdout = open(os.devnull, "w")
+    print(mouse_string)
     mouse_value = mouse_distance(mouse_string, user_id)
+    print("Mouse Value: ", mouse_value)
     # Login
     if (len(sys.argv)==4):
-        face_value = face_recognition.face_distance(user_id)
+        face_value = face_recognition.face_distance(1)
+        # face_value=0
         key_logger_value = key_logger.string_distance("hello","mfs")
         multi_model_value = multi_model.predict(mouse_value, face_value, key_logger_value)
-    # sys.stdout = temp
-    print(multi_model_value)
+    sys.stdout = temp
+    print("Mouse: ", mouse_value, " Face:", face_value, " Key:", key_logger_value, " Overall:",  multi_model_value)
 
 if __name__=="__main__":
     start()
