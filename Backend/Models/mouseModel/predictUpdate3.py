@@ -228,7 +228,7 @@ def predict(s,userIDKnown):
 
 
             # print("Wrong user detected")
-        return relation_with_given_user
+        return 1-relation_with_given_user
 
 
 if __name__ == '__main__':

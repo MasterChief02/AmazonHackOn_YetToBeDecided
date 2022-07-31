@@ -14,26 +14,43 @@ import mysql.connector
 
 
 def start():
-    # # s=sys.argv(5)
+    
+    
     # s=input()
-    # mydb = mysql.connector.connect(
-    #     host="localhost",
-    #     user="admin",
-    #     password="password",
-    #     database="yettobedecided"
-    #     )
-    # # print(len(sys.argv))
-    # mycursor = mydb.cursor()
-    # mycursor.execute("use yettobedecided")
-    # sqlFetchUserID= "select userid from users where username=%s"
-    # # username = (sys.argv(3),)
+    mydb = mysql.connector.connect(
+        host="localhost",
+        user="admin",
+        password="password",
+        database="yettobedecided"
+        )
+    # print(len(sys.argv))
+    mycursor = mydb.cursor()
+    mycursor.execute("use yettobedecided")
+    sqlFetchUserID= "select userid from users where username=%s"
+    username = (sys.argv(3),)
+    sqlFetchPassword = "select password from users where username=%s"
     # username = ("aadi1",)
-    # mycursor.execute(sqlFetchUserID, username)
-    # result = mycursor.fetchall()
-    # id=result[0][0]
-    user_id = 2
+    mycursor.execute(sqlFetchUserID, username)
+    result = mycursor.fetchall()
+    user_id=0
+    password=''
+    if(len(result)==0):
+        print(10)
+        
+    else:
+        user_id = result[0][0]
+        mycursor.execute(sqlFetchPassword, username)
+        result = mycursor.fetchall()
+        password = result[0][0]
+
+    # if(len(result)==0):
+
+    # user_id=result[0][0]
+    # print(result)
+    # user_id = 2
 
     mouse_string = sys.argv[1]
+    
 
     temp = sys.stdout
     sys.stdout = open(os.devnull, "w")
@@ -44,7 +61,7 @@ def start():
     if (len(sys.argv)==4):
         face_value = face_recognition.face_distance(1)
         # face_value=0
-        key_logger_value = key_logger.string_distance("hello","mfs")
+        key_logger_value = key_logger.string_distance(sys.argv[3],password)
         multi_model_value = multi_model.predict(mouse_value, face_value, key_logger_value)
     sys.stdout = temp
     print("Mouse: ", mouse_value, " Face:", face_value, " Key:", key_logger_value, " Overall:",  multi_model_value)
