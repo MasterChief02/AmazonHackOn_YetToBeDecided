@@ -27,7 +27,7 @@ def start():
     mycursor = mydb.cursor()
     mycursor.execute("use yettobedecided")
     sqlFetchUserID= "select userid from users where username=%s"
-    username = (sys.argv(3),)
+    username = (sys.argv[3],)
     sqlFetchPassword = "select password from users where username=%s"
     # username = ("aadi1",)
     mycursor.execute(sqlFetchUserID, username)
@@ -43,28 +43,21 @@ def start():
         result = mycursor.fetchall()
         password = result[0][0]
 
-    # if(len(result)==0):
 
-    # user_id=result[0][0]
-    # print(result)
-    # user_id = 2
-
-    mouse_string = sys.argv[1]
-    
-
-    temp = sys.stdout
-    sys.stdout = open(os.devnull, "w")
-    print(mouse_string)
-    mouse_value = mouse_distance(mouse_string, user_id)
-    print("Mouse Value: ", mouse_value)
-    # Login
-    if (len(sys.argv)==4):
-        face_value = face_recognition.face_distance(1)
-        # face_value=0
-        key_logger_value = key_logger.string_distance(sys.argv[3],password)
-        multi_model_value = multi_model.predict(mouse_value, face_value, key_logger_value)
-    sys.stdout = temp
-    print("Mouse: ", mouse_value, " Face:", face_value, " Key:", key_logger_value, " Overall:",  multi_model_value)
+        mouse_string = sys.argv[1]
+        temp = sys.stdout
+        sys.stdout = open(os.devnull, "w")
+        print(mouse_string)
+        mouse_value = mouse_distance(mouse_string, user_id)
+        print("Mouse Value: ", mouse_value)
+        # Login
+        if (len(sys.argv)==4):
+            face_value = face_recognition.face_distance(1)
+            # face_value=0
+            key_logger_value = key_logger.string_distance(sys.argv[3],password)
+            multi_model_value = multi_model.predict(mouse_value, face_value, key_logger_value)
+        sys.stdout = temp
+        print("Mouse: ", mouse_value, " Face:", face_value, " Key:", key_logger_value, " Overall:",  multi_model_value)
 
 if __name__=="__main__":
     start()

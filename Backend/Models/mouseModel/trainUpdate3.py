@@ -70,17 +70,6 @@ def train():
     test_accuracy = accuracy_score(y_validation, y_predicted)
     print("Test Accuracy: %0.2f" % test_accuracy)
 
-    # fpr[i], tpr[i], thr = evaluate_sequence_of_samples(model, X_validation, y_validation, 2)
-
-    # threshold = -1
-    # try:
-    #     eer = brentq(lambda x: 1. - x - interp1d(fpr[i], tpr[i])(x), 0., 1.)
-    #     threshold = interp1d(fpr[i], thr)(eer)
-    # except (ZeroDivisionError, ValueError):
-    #     print("Division by zero")
-
-    # roc_auc[i] = auc(fpr[i], tpr[i])
-    # print(str(i) + ": " + str(roc_auc[i])+" threshold: "+str(threshold))
     with open('model_pickle','wb') as f:
         pickle.dump(model,f)
 
